@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>With </title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-color: #0f1419;
+      --text-color: #f0f2f5;
+      --input-bg: #1e252b;
+      --accent-color: #4ecca3;
+      --border-color: rgba(255, 255, 255, 0.1);
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      --error-color: #ff6b6b;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--bg-color) url('bg.jpeg') no-repeat center/cover fixed;
+      color: var(--text-color);
+      min-height: 100vh;
+      padding: 3rem 1rem;
+      font-weight: 400;
+      line-height: 1.5;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(15, 20, 25, 0.85);
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 600;
+      text-align: center;
+      margin-bottom: 3rem;
+      color: var(--text-color);
+      letter-spacing: 0.5px;
+    }
+
+    .form-container {
+      background: var(--input-bg);
+      border-radius: 12px;
+      padding: 2rem;
+      border: 1px solid var(--border-color);
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+
+    label {
+      font-size: 0.85rem;
+      font-weight: 400;
+      color: rgba(240, 242, 245, 0.9);
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 0.75rem;
+      background: var(--bg-color);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      color: var(--text-color);
+      font-size: 1rem;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 300;
+      transition: border-color 0.2s ease;
+    }
+
+    select:focus {
+      outline: none;
+      border-color: var(--accent-color);
+    }
+
+    .tooltip {
+      position: absolute;
+      top: 0;
+      right: 0;
+      font-size: 0.75rem;
+      background: var(--accent-color);
+      color: var(--bg-color);
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      display: none;
+    }
+
+    .form-group:hover .tooltip {
+      display: block;
+    }
+
+    .accordion {
+      margin-top: 1.5rem;
+    }
+
+    .accordion-header {
+      padding: 0.75rem;
+      background: var(--bg-color);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .accordion-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+      padding: 0 1rem;
+    }
+
+    .accordion-content.active {
+      max-height: 800px;
+      padding: 1rem;
+    }
+
+    .add-btn {
+      background: transparent;
+      border: 1px dashed var(--accent-color);
+      color: var(--accent-color);
+      padding: 0.5rem;
+      width: 100%;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 400;
+      margin-top: 1rem;
+    }
+
+    .add-btn:hover {
+      background: rgba(78, 204, 163, 0.1);
+    }
+
+    button[type="button"] {
+      width: 100%;
+      padding: 0.9rem;
+      background: var(--accent-color);
+      border: none;
+      border-radius: 8px;
+      color: var(--bg-color);
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: opacity 0.2s ease;
+      margin-top: 2rem;
+    }
+
+    button[type="button"]:hover {
+      opacity: 0.9;
+    }
+
+    .result {
+      margin-top: 2rem;
+      font-size: 1.25rem;
+      font-weight: 400;
+      text-align: center;
+      color: var(--text-color);
+      padding: 1rem;
+      background: var(--input-bg);
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      opacity: 0;
+      animation: fadeIn 0.3s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 2rem 1rem; }
+      h1 { font-size: 1.75rem; }
+      .form-container { padding: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Made with &#128151; <s>lazyness</s> by Mistic</h1>
+    <div class="form-container">
+      <form id="discForm">
+        <div class="form-group">
+          <label for="mainStat">Main Stat Value</label>
+          <input type="number" id="mainStat" placeholder="e.g., 184" required min="0" />
+        </div>
+
+        <div class="form-group">
+          <label for="partition">Partition (I - VI)</label>
+          <select id="partition" required>
+            <option value="" disabled selected>Select Partition</option>
+            <option value="I">I (Flat HP)</option>
+            <option value="II">II (Flat ATK)</option>
+            <option value="III">III (Flat DEF)</option>
+            <option value="IV">IV (HP%, ATK%, DEF%, CRIT Rate, CRIT DMG, Anomaly Proficiency)</option>
+            <option value="V">V (HP%, ATK%, DEF%, PEN Ratio, Attribute DMG%)</option>
+            <option value="VI">VI (HP%, ATK%, DEF%, Energy Regen%, Impact, Anomaly Mastery)</option>
+          </select>
+        </div>
+
+        <div class="accordion">
+          <div class="accordion-header" onclick="toggleAccordion(this)">
+            Sub-Stats (Up to 4) <span>▼</span>
+          </div>
+          <div class="accordion-content">
+            <div id="subStatsContainer">
+              <div class="form-group sub-stat" data-index="1">
+                <label for="subStat1">Sub-Stat 1</label>
+                <select id="subStat1" required onchange="updateSubStatValueOptions(this)">
+                  <option value="" disabled selected>Select Sub-Stat</option>
+                  <option value="HP">HP</option>
+                  <option value="HP%">HP%</option>
+                  <option value="ATK">ATK</option>
+                  <option value="ATK%">ATK%</option>
+                  <option value="DEF">DEF</option>
+                  <option value="DEF%">DEF%</option>
+                  <option value="PEN">PEN</option>
+                  <option value="CRIT Rate">CRIT Rate</option>
+                  <option value="CRIT DMG">CRIT DMG</option>
+                  <option value="Anomaly Proficiency">Anomaly Proficiency</option>
+                </select>
+                <select id="subStat1Value" required style="margin-top: 0.5rem;">
+                  <option value="" disabled selected>Select Upgrade Level</option>
+                </select>
+              </div>
+            </div>
+            <button type="button" class="add-btn" onclick="addSubStat()">+ Add Sub-Stat</button>
+          </div>
+        </div>
+
+        <div class="accordion" style="padding-top:20px;">
+          <div class="accordion-header" onclick="toggleAccordion(this)">
+            Priority Sub-Stats <span>▼</span>
+          </div>
+          <div class="accordion-content" >
+            <div class="form-group">
+              <label for="priority1">Priority 1</label>
+              <select id="priority1" required>
+                <option value="" disabled selected>Select Priority</option>
+                <option value="ATK%">ATK%</option>
+                <option value="Anomaly Proficiency">Anomaly Proficiency</option>
+                <option value="ATK">ATK</option>
+                <option value="PEN">PEN</option>
+                <option value="HP">HP</option>
+                <option value="HP%">HP%</option>
+                <option value="DEF">DEF</option>
+                <option value="DEF%">DEF%</option>
+                <option value="CRIT Rate">CRIT Rate</option>
+                <option value="CRIT DMG">CRIT DMG</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="priority2">Priority 2</label>
+              <select id="priority2">
+                <option value="None" selected>None</option>
+                <option value="ATK%">ATK%</option>
+                <option value="Anomaly Proficiency">Anomaly Proficiency</option>
+                <option value="ATK">ATK</option>
+                <option value="PEN">PEN</option>
+                <option value="HP">HP</option>
+                <option value="HP%">HP%</option>
+                <option value="DEF">DEF</option>
+                <option value="DEF%">DEF%</option>
+                <option value="CRIT Rate">CRIT Rate</option>
+                <option value="CRIT DMG">CRIT DMG</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="priority3">Priority 3</label>
+              <select id="priority3">
+                <option value="None" selected>None</option>
+                <option value="ATK%">ATK%</option>
+                <option value="Anomaly Proficiency">Anomaly Proficiency</option>
+                <option value="ATK">ATK</option>
+                <option value="PEN">PEN</option>
+                <option value="HP">HP</option>
+                <option value="HP%">HP%</option>
+                <option value="DEF">DEF</option>
+                <option value="DEF%">DEF%</option>
+                <option value="CRIT Rate">CRIT Rate</option>
+                <option value="CRIT DMG">CRIT DMG</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="priority4">Priority 4</label>
+              <select id="priority4">
+                <option value="None" selected>None</option>
+                <option value="ATK%">ATK%</option>
+                <option value="Anomaly Proficiency">Anomaly Proficiency</option>
+                <option value="ATK">ATK</option>
+                <option value="PEN">PEN</option>
+                <option value="HP">HP</option>
+                <option value="HP%">HP%</option>
+                <option value="DEF">DEF</option>
+                <option value="DEF%">DEF%</option>
+                <option value="CRIT Rate">CRIT Rate</option>
+                <option value="CRIT DMG">CRIT DMG</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group" style="padding-top:20px;">
+          <label for="rollScore" style="margin-left:5px;">Lets go ~</label>
+          <input type="number" id="rollScore" placeholder="e.g., 40" required min="0" max="100" />
+          <span class="tooltip">Score based on roll quality</span>
+        </div>
+
+        <button type="button" onclick="calculateScore()">Calculate Score</button>
+      </form>
+
+      <div class="result" id="result"></div>
+    </div>
+  </div>
+
+  <script>
+    let subStatCount = 1;
+
+    const baseValues = {
+      "HP": 112,       // Based on your image (e.g., 19 HP base)
+      "HP%": 3,       // 3% base
+      "ATK": 19,     // 112 ATK base
+      "ATK%": 3,      // 3% base
+      "DEF": 15,      // 15 DEF base
+      "DEF%": 4.8,      // 3% base
+      "PEN": 9,       // 9 PEN base
+      "CRIT Rate": 2.4, // 2.4% base
+      "CRIT DMG": 4.8,  // 4.8% base
+      "Anomaly Proficiency": 9  // Assuming a reasonable base, adjust if needed
+    };
+
+    function toggleAccordion(header) {
+      const content = header.nextElementSibling;
+      content.classList.toggle('active');
+      header.querySelector('span').textContent = content.classList.contains('active') ? '▲' : '▼';
+    }
+
+    function updateSubStatValueOptions(select) {
+      const index = select.id.replace('subStat', '');
+      const valueSelect = document.getElementById(`subStat${index}Value`);
+      const statType = select.value;
+      valueSelect.innerHTML = '<option value="" disabled selected>Select Upgrade Level</option>';
+
+      if (statType && baseValues[statType]) {
+        const base = baseValues[statType];
+        for (let i = 0; i <= 4; i++) { // 0 upgrades (base) to 4 upgrades (doubled 4 times)
+          const value = base * (i + 1);
+          const option = document.createElement('option');
+          option.value = value;
+          // Format the option text to match the style in your image (e.g., "3%" for percentages)
+          let displayValue = value;
+          if (statType.endsWith('%')) {
+            displayValue = `${value}%`;
+          } else if (statType === "CRIT Rate" || statType === "CRIT DMG") {
+            displayValue = `${value.toFixed(1)}%`; // Keep decimals for percentages
+          }
+          option.textContent = displayValue;
+          valueSelect.appendChild(option);
+        }
+      }
+    }
+
+    function addSubStat() {
+      if (subStatCount >= 4) return;
+      subStatCount++;
+      const container = document.getElementById('subStatsContainer');
+      const newSubStat = document.createElement('div');
+      newSubStat.className = 'form-group sub-stat';
+      newSubStat.dataset.index = subStatCount;
+      newSubStat.innerHTML = `
+        <label for="subStat${subStatCount}">Sub-Stat ${subStatCount}</label>
+        <select id="subStat${subStatCount}" required onchange="updateSubStatValueOptions(this)">
+          <option value="" disabled selected>Select Sub-Stat</option>
+          <option value="HP">HP</option>
+          <option value="HP%">HP%</option>
+          <option value="ATK">ATK</option>
+          <option value="ATK%">ATK%</option>
+          <option value="DEF">DEF</option>
+          <option value="DEF%">DEF%</option>
+          <option value="PEN">PEN</option>
+          <option value="CRIT Rate">CRIT Rate</option>
+          <option value="CRIT DMG">CRIT DMG</option>
+          <option value="Anomaly Proficiency">Anomaly Proficiency</option>
+        </select>
+        <select id="subStat${subStatCount}Value" required style="margin-top: 1 rem; margin-bottom: 1 rem">
+          <option value="" disabled selected>Select Upgrade Level</option>
+        </select>
+      `;
+      container.appendChild(newSubStat);
+      if (subStatCount === 4) document.querySelector('.add-btn').style.display = 'none';
+    }
+
+    const mainStatMax = {
+      "I": 500, "II": 200, "III": 200, "IV": 100, "V": 100, "VI": 100
+    };
+
+    function getSubStatScore(statType, value) {
+      if (!baseValues[statType] || value <= 0) return 0;
+      // Normalize the value to the base value to calculate the score (0-100)
+      const base = baseValues[statType];
+      return (value / (base * 5)) * 100; // Max value after 4 upgrades (base * 5)
+    }
+
+    function calculateScore() {
+      const mainStat = parseFloat(document.getElementById("mainStat").value);
+      const partition = document.getElementById("partition").value;
+      if (!mainStat || !partition) {
+        document.getElementById("result").textContent = "Please fill all required fields.";
+        return;
+      }
+      const mainMax = mainStatMax[partition] || 100;
+      const mainScore = (mainStat / mainMax) * 100;
+
+      const subStats = [];
+      for (let i = 1; i <= subStatCount; i++) {
+        const type = document.getElementById(`subStat${i}`).value;
+        const val = parseFloat(document.getElementById(`subStat${i}Value`).value) || 0;
+        if (type && type !== "" && val) subStats.push({ type, value: val });
+      }
+
+      const priorities = [
+        { stat: document.getElementById("priority1").value, weight: 0.4 },
+        { stat: document.getElementById("priority2").value, weight: 0.3 },
+        { stat: document.getElementById("priority3").value, weight: 0.2 },
+        { stat: document.getElementById("priority4").value, weight: 0.1 }
+      ];
+
+      let weightedSubScore = 0;
+      priorities.forEach(pri => {
+        if (pri.stat !== "None" && pri.stat !== "") {
+          const match = subStats.find(s => s.type === pri.stat);
+          if (match) {
+            const normScore = getSubStatScore(match.type, match.value);
+            weightedSubScore += normScore * pri.weight;
+          }
+        }
+      });
+
+      const rollScore = parseFloat(document.getElementById("rollScore").value) || 0;
+      const finalScore = (0.4 * mainScore) + (0.4 * weightedSubScore) + (0.2 * rollScore);
+
+      document.getElementById("result").textContent = `Score: ${finalScore.toFixed(1)} / 100`;
+    }
+  </script>
+</body>
+</html>
